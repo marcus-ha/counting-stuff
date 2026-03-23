@@ -11,6 +11,7 @@ import { AddRow } from "./components/AddRow";
 import { loadCountables, saveCountables } from "./storage/CountableStorage";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+
 export default function App() {
   const [countables, setCountables] = useState([]);
 
@@ -61,8 +62,6 @@ export default function App() {
     </SafeAreaView>
   );
 }
-
-//test
 
 const styles = StyleSheet.create({
   container: {

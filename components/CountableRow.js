@@ -29,6 +29,8 @@ const styles = StyleSheet.create({
   nameColumn: {
     flex: 0.8,
     alignItems: "center",
+    borderRadius: 5,
+    padding: 10,
   },
   buttonColumn: {
     flex: 0.2,

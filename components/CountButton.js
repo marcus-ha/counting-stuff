@@ -10,8 +10,10 @@ export const CountButton = ({ text, submit }) => (
 const styles = StyleSheet.create({
   button: {
     borderRadius: 5,
+    borderColor: "#e9e9e9",
+    backgroundColor: "#e9e9e9",
+    borderWidth: 1,
     margin: 5,
-    backgroundColor: "lightblue",
     alignItems: "center",
   },
 });
