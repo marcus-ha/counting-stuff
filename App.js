@@ -4,6 +4,7 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   Platform,
+  Text
 } from "react-native";
 import { useEffect, useRef, useState } from "react";
 import { CountableRow } from "./components/CountableRow";
@@ -11,6 +12,8 @@ import { AddRow } from "./components/AddRow";
 import { loadCountables, saveCountables } from "./storage/CountableStorage";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Alert } from "react-native";
+
+
 
 
 export default function App() {
@@ -71,15 +74,21 @@ export default function App() {
         style={styles.container}
       >
         <ScrollView>
-          {countables.map((countable, index) => (
-            <CountableRow
-              countable={countable}
-              key={countable.name}
-              changeCount={changeCount}
-              index={index}
-              removeCountable={removeCountable}
-            />
-          ))}
+          {countables.length === 0 ? (
+            <Text style={styles.emptyText}>
+              Inget att räkna ännu!
+            </Text>
+          ) : (
+            countables.map((countable, index) => (
+              <CountableRow
+                countable={countable}
+                key={countable.name}
+                changeCount={changeCount}
+                index={index}
+                removeCountable={removeCountable}
+              />
+            ))
+          )}
         </ScrollView>
         <AddRow addNewCountable={addNewCountable} />
       </KeyboardAvoidingView>
@@ -92,5 +101,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
+  },
+  emptyText: {
+    textAlign: "center",
+    marginTop: 50,
+    fontSize: 18,
+    color: "#aaa",
+    fontStyle: "italic",
   },
 });

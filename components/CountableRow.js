@@ -19,7 +19,11 @@ export const CountableRow = ({ countable, changeCount, index, removeCountable })
 
       <View style={styles.buttonColumn}>
         <CountButton text="+" submit={() => changeCount(1, index)} />
-        <CountButton text="-" submit={() => changeCount(-1, index)} />
+        <CountButton
+          text="-"
+          submit={() => changeCount(-1, index)}
+          disabled={countable.count === 0}
+        />
       </View>
 
       <View style={styles.deleteColumn}>
