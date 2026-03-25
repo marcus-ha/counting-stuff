@@ -19,16 +19,19 @@ import { Alert } from "react-native";
 export default function App() {
   const [countables, setCountables] = useState([]);
 
-  const changeCount = (amount, index) => {
-    const newState = [...countables];
-    newState[index].count += amount;
+  const changeCount = (amount, name) => {
+    const newState = countables.map((item) =>
+      item.name === name
+        ? { ...item, count: item.count + amount }
+        : item
+    );
+
     setCountables(newState);
   };
 
   const addNewCountable = (name) => {
     const trimmedName = name.trim();
 
-    // Stoppa tomma namn och dubbletter
     if (trimmedName === "") {
       Alert.alert("Error", "Name cannot be empty!");
       return;
@@ -47,11 +50,42 @@ export default function App() {
     setCountables(newState);
   };
 
-  const removeCountable = (index) => {
-    const newState = countables.filter((_, i) => i !== index);
+  const removeCountable = (name) => {
+    const newState = countables.filter((item) => item.name !== name);
     setCountables(newState);
-
   };
+
+
+
+
+  const editCountableName = (oldName, newName) => {
+    const trimmedName = newName.trim();
+
+    if (trimmedName === "") {
+      Alert.alert("Error", "Name cannot be empty!");
+      return;
+    }
+
+    const exists = countables.some(
+      (item) =>
+        item.name.toLowerCase() === trimmedName.toLowerCase() &&
+        item.name !== oldName
+    );
+
+    if (exists) {
+      Alert.alert("Error", "This name already exists!");
+      return;
+    }
+
+    const newState = countables.map((item) =>
+      item.name === oldName
+        ? { ...item, name: trimmedName }
+        : item
+    );
+
+    setCountables(newState);
+  };
+
 
   const isLoaded = useRef(false);
 
@@ -75,21 +109,22 @@ export default function App() {
       >
         <ScrollView>
           {countables.length === 0 ? (
-            <Text style={styles.emptyText}>
-              Inget att räkna ännu!
-            </Text>
+            <Text style={styles.emptyText}>Inget att räkna ännu!</Text>
           ) : (
-            countables.map((countable, index) => (
-              <CountableRow
-                countable={countable}
-                key={countable.name}
-                changeCount={changeCount}
-                index={index}
-                removeCountable={removeCountable}
-              />
-            ))
+            [...countables]
+              .sort((a, b) => b.count - a.count)
+              .map((countable) => (
+                <CountableRow
+                  countable={countable}
+                  key={countable.name}
+                  changeCount={changeCount}
+                  removeCountable={removeCountable}
+                  editCountableName={editCountableName}
+                />
+              ))
           )}
         </ScrollView>
+
         <AddRow addNewCountable={addNewCountable} />
       </KeyboardAvoidingView>
       <StatusBar style="auto" />
